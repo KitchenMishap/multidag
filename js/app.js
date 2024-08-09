@@ -1,3 +1,5 @@
+var vertices = {};
+
 // Set up zoom support
   // [ ] ToDo make rendering work nicely at any zoom value
   // (Steps to reproduce: Zoom and then click on something that changes the graph)
@@ -42,16 +44,23 @@ function tryDraw() {
 }
 
 function getSingleString() {
-  return fetchJsonFile("vertices/blockchain/attributes.json")
+  fetchJsonFile("vertices/blockchain/attributes.json")
     .then((response) => {
-      return response.json()
+      response.json()
+        .then((json) => {
+          renderSingleHtmlStringAsDot( renderJsonObjectAsHtml(json) );
+        })
+        .catch((jsonError) => {
+          console.log(jsonError);
+          renderSingleHtmlStringAsDot( "JSON Error: See Console");
+          })
     })
-    .then((json) => {
-      return renderSingleHtmlStringAsDot( renderJsonObjectAsHtml(json) );
-    })
-    .catch((error) => {
-      console.log(error)
-      return renderSingleHtmlStringAsDot( "Error: See Console under Developer Tools in browser");
+    .catch((httpError) => {
+      console.log(httpError);
+      renderSingleHtmlStringAsDot( "HTTP Error: See Console");
     });
 }
 
+function getFirstVertex() {
+  updateAddVertex("block/0")
+}
