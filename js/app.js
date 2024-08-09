@@ -40,3 +40,18 @@ function tryDraw() {
     d3.select("svg g").call(render, g);
   }
 }
+
+function getSingleString() {
+  return fetchJsonFile("vertices/blockchain/attributes.json")
+    .then((response) => {
+      return response.json()
+    })
+    .then((json) => {
+      return renderSingleHtmlStringAsDot( renderJsonObjectAsHtml(json) );
+    })
+    .catch((error) => {
+      console.log(error)
+      return renderSingleHtmlStringAsDot( "Error: See Console under Developer Tools in browser");
+    });
+}
+

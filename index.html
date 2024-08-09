@@ -26,6 +26,11 @@
 <script src="js/vendor/graphlib-dot/dist/graphlib-dot.js"></script>
 <script src="js/vendor/dagre-d3/dist/dagre-d3.js"></script>
 
+<script src="js/fetch.js"></script>
+<script src="js/renderasdot.js"></script>
+<script src="js/renderashtml.js"></script>
+<script src="js/sanitize.js"></script>
+
 <style>
   textarea {
     width: 600px;
@@ -39,6 +44,7 @@
 <body onload="tryDraw()">
 
   <h1>MultiDag</h1>
+  <button type="button" onclick="getSingleString();">Get single string</button><br>
 
   <svg width=600 height=400>
     <g/>
@@ -50,7 +56,7 @@
   <form>
     <textarea id="inputGraph" rows="10" style="display: block" onKeyUp="tryDraw();">
 digraph {
-  A [labelType="html" label="<h1>Hello World!</h1>"]
+  A [labelType="html" label="<h1>Hello World! This text is in index.html</h1>"]
 }
   </textarea>
   </form>
