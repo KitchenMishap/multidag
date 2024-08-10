@@ -5,5 +5,16 @@
       "otherVertex": "blockchain",
       "otherLabel": "blocks"
     }
-  ]
+  ],
+  "multiOut": {
+    "transactions": {
+      "totalCount": 1,
+      "arcSelection": {
+        "firstIndex": 0,
+        "vertices": [
+          "transaction/2"
+        ]
+      }
+    }
+  }
 }

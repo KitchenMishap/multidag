@@ -9,6 +9,11 @@ div.block h3 {
   color: #FFFFFF;
 }
 
+div.transaction h3 {
+  background-color: #222266;
+  color: #FFFFFF;
+}
+
 button.blockchain {
   background-color: #FF9900;
   color: #FFFFFF;
@@ -16,6 +21,11 @@ button.blockchain {
 
 button.block {
   background-color: #666622;
+  color: #FFFFFF;
+}
+
+button.transaction {
+  background-color: #222266;
   color: #FFFFFF;
 }
 
