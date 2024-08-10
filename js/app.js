@@ -1,5 +1,5 @@
 var vertices = {};
-var metaVertices = {};
+var multiMetaVertices = {};
 
 // Set up zoom support
   // [ ] ToDo make rendering work nicely at any zoom value

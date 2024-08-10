@@ -28,12 +28,6 @@ function updateAddVertex(partialUrl) {
 }
 
 function updateRemoveVertex(partialUrl) {
-  for(const [k,v] of Object.entries(metaVertices))
-  {
-    if( metaVertices[k].parent == partialUrl) {
-      delete metaVertices[k];
-    }
-  }
   delete vertices[partialUrl];
   renderAllAsDot();
 }

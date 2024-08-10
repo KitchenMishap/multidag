@@ -20,6 +20,7 @@ function renderSingleHtmlStringAsDot(str) {
 }
 
 function renderAllAsDot() {
+  multiMetaVertices = {};
   var result = "";
 
   // Start of the dot string
@@ -34,11 +35,12 @@ function renderAllAsDot() {
     result += '"];\n';
 
     // The arcs for the vertex
+    // Also adds items to multiMetaVertices
     result += renderVertexArcsAsDot(vertex, value.links);
   }
 
-  // The metavertices
-  for (const [key, value] of Object.entries(metaVertices)) {
+  // The multiMetaVertices
+  for (const [key, value] of Object.entries(multiMetaVertices)) {
     var metaVertexName = key;
     var parentName = 'vertex_' + value.parent.replace("/","_");
     result += metaVertexName;
@@ -48,6 +50,18 @@ function renderAllAsDot() {
 
     // The arc for the metavertex
     result += parentName + ' -> ' + metaVertexName + ';';
+
+    // The "n others" coming off of the multiMetaVertex
+    var othersCount = calculateMultiMetaVertexOthersCount(metaVertexName);
+    if( othersCount > 0 )
+    {
+      result += metaVertexName + "_others";
+      result += ' [labeltype="html" label ="';
+      result += '' + othersCount + ' others"];\n';
+
+      // The arc to "n others"
+      result += metaVertexName + ' -> ' + metaVertexName + '_others;';
+    }
   }
 
   // The end of the dot string
@@ -85,8 +99,9 @@ function renderVertexArcsAsDot(vertexA, vertexALinks)
         // Will it have a metavertex at the multi-end?
         if( arcEndpointExistsAndIsMulti(vertexB, labelB) )
         {
-          var metaVertexName = addMetaVertexIfNotExist(vertexB, labelB)
+          var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB)
           dotResult += renderArcFromMetaVertexAsDot(metaVertexName, vertexA);
+          multiMetaVertices[metaVertexName].linkCount++;
         } else {
           // Direct link (no metavertex)
           dotResult += renderArcAsDot(vertexB, vertexA)
@@ -98,10 +113,11 @@ function renderVertexArcsAsDot(vertexA, vertexALinks)
   return dotResult;
 }
 
-function addMetaVertexIfNotExist(vertex, label)
+function addMultiMetaVertexIfNotExist(vertex, label)
 {
-  // We simply overwrite if it exists
   var metaVertexName = "metavertex_" + vertex.replace("/","_") + "_" + label;
-  metaVertices[metaVertexName] = {parent:vertex, label:label};
+  if(!multiMetaVertices.hasOwnProperty(metaVertexName)) {
+    multiMetaVertices[metaVertexName] = {parent: vertex, label: label, linkCount: 0};
+  }
   return metaVertexName;
 }
