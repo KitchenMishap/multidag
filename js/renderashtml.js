@@ -17,7 +17,7 @@ function renderVertexAsHtml(vertex, attributes, links) {
       if( !vertices.hasOwnProperty(singleIn.otherVertex) ) {
         var addAction = "addVertex('" + singleIn.otherVertex + "')";
         var label = singleIn.label;
-        htmlResult += "<button type='button' tooltip='" + label + "' onclick=" + addAction + ">+</button>";
+        htmlResult += "<button type='button' onclick=" + addAction + ">+" + label + "</button>";
       }
     }
   }
