@@ -63,5 +63,5 @@ function getSingleString() {
 }
 
 function getFirstVertex() {
-  updateAddVertex("block/0")
+  updateAddVertexAndRedraw("block/0")
 }

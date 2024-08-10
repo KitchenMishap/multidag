@@ -33,3 +33,25 @@ function calculateMultiMetaVertexOthersCount(metaVertexName)
   }
   return 0;
 }
+
+function multiOutsNotYetOpen(sourceVertex, multiOutLabel)
+{
+  var links = vertices[sourceVertex].links;
+  if (links.hasOwnProperty("multiOut")) {
+    if (links.multiOut.hasOwnProperty(multiOutLabel)) {
+      var verticesToOpen = links.multiOut[multiOutLabel].arcSelection.vertices;
+      console.log("candidate verticesToOpen:");
+      console.log(verticesToOpen);
+      var verticesToKeep = [];
+      for(vertex of verticesToOpen) {
+        if( !vertices.hasOwnProperty(vertex) ) {
+          verticesToKeep.push(vertex);
+        }
+      }
+      console.log("verticesToOpen:");
+      console.log(verticesToKeep);
+      return verticesToKeep;
+    }
+  }
+  return [];
+}

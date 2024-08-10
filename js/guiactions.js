@@ -1,9 +1,15 @@
 function addVertex(partialUrl)
 {
-  updateAddVertex(partialUrl);
+  updateAddVertexAndRedraw(partialUrl);
 }
 
 function removeVertex(partialUrl)
 {
-  updateRemoveVertex(partialUrl);
+  updateRemoveVertexAndRedraw(partialUrl);
+}
+
+function addMultiOut(sourceVertex, multiOutLabel)
+{
+  var verticesToOpen = multiOutsNotYetOpen(sourceVertex, multiOutLabel);
+  updateAddVerticesAndRedraw(verticesToOpen);
 }
