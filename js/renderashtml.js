@@ -10,10 +10,10 @@ function renderJsonObjectAsHtml(json) {
 function renderVertexAsHtml(attributes, links) {
   htmlResult = '';
 
-  if (links.hasOwnProperty("singlein")) {
-    for (singlein of links.singlein) {
-      action = "addVertex('" + singlein.partialUrl + "')";
-      label = singlein.label;
+  if (links.hasOwnProperty("singleIn")) {
+    for (singleIn of links.singleIn) {
+      action = "addVertex('" + singleIn.otherVertex + "')";
+      label = singleIn.label;
       htmlResult += "<button type='button' tooltip='" + label + "' onclick=" + action + ">+</button>";
     }
   }

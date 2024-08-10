@@ -1,6 +1,14 @@
 function bothVerticesPresent(vertexA, vertexB)
 {
-  console.log("Looking for " + vertexA + " and " + vertexB);
   return( vertices.hasOwnProperty(vertexA)
     && vertices.hasOwnProperty(vertexB) );
+}
+
+function arcEndpointExistsAndIsMulti(vertex, label)
+{
+  if( !vertices.hasOwnProperty(vertex) ) {
+    return false;
+  }
+  return (vertices[vertex].links.hasOwnProperty("multiOut")
+          && vertices[vertex].links.multiOut.hasOwnProperty(label));
 }

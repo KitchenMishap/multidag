@@ -1,2 +1,14 @@
 {
+  "multiOut": {
+    "blocks": {
+      "totalCount": 855000,
+      "arcSelection": {
+        "firstIndex": 0,
+        "vertices": [
+          "block/0",
+          "block/1"
+        ]
+      }
+    }
+  }
 }
