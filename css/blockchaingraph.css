@@ -1,0 +1,29 @@
+div.blockchain h3 {
+  background-color: #FF9900;
+  color: #FFFFFF;
+  font-family: "Ubuntu"
+}
+
+div.block h3 {
+  background-color: #666622;
+  color: #FFFFFF;
+}
+
+button.blockchain {
+  background-color: #FF9900;
+  color: #FFFFFF;
+}
+
+button.block {
+  background-color: #666622;
+  color: #FFFFFF;
+}
+
+h3.title {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+div {
+  margin: 10;
+}

@@ -55,3 +55,12 @@ function multiOutsNotYetOpen(sourceVertex, multiOutLabel)
   }
   return [];
 }
+
+function vertexClass(vertex) {
+  return vertex.split('/')[0];
+}
+
+function vertexTitle(vertex) {
+  var candidate = vertex.split('/')[0];
+  return candidate.toUpperCase();
+}
