@@ -30,7 +30,7 @@ function renderAllAsDot() {
     var vertex = key;
     result += 'vertex_' + vertex.replace("/","_");
     result += ' [labelType="html" label="';
-    result += renderVertexAsHtml(value.attributes, value.links);
+    result += renderVertexAsHtml(vertex, value.attributes, value.links);
     result += '"];\n';
 
     // The arcs for the vertex

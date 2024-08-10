@@ -7,19 +7,22 @@ function renderJsonObjectAsHtml(json) {
   return htmlResult;
 }
 
-function renderVertexAsHtml(attributes, links) {
+function renderVertexAsHtml(vertex, attributes, links) {
   htmlResult = '';
 
+  // Buttons at the top
   if (links.hasOwnProperty("singleIn")) {
     for (singleIn of links.singleIn) {
       // Only show button if links to vertex not yet shown
       if( !vertices.hasOwnProperty(singleIn.otherVertex) ) {
-        action = "addVertex('" + singleIn.otherVertex + "')";
-        label = singleIn.label;
-        htmlResult += "<button type='button' tooltip='" + label + "' onclick=" + action + ">+</button>";
+        var addAction = "addVertex('" + singleIn.otherVertex + "')";
+        var label = singleIn.label;
+        htmlResult += "<button type='button' tooltip='" + label + "' onclick=" + addAction + ">+</button>";
       }
     }
   }
+  var removeAction = "removeVertex('" + vertex + "')";
+  htmlResult += "<button type='button' onclick=" + removeAction + ">X</button>";
 
   htmlResult += '<table>'
   for([k,v] of Object.entries(attributes)) {
