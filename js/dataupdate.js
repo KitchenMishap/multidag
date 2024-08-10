@@ -16,10 +16,11 @@ function updateAddVertex(partialUrl) {
       // Now display it all
       vertices[partialUrl] = {attributes: attr, links: lnk};
       renderAllVerticesAsDot();
-    }, (reason)=> {
+    })
+    .catch( (reason)=> {
       console.log("There was an error fetching or parsing the attributes.json or links.json file for vertex " + partialUrl);
       console.log("Error:");
-      console.log(error);
+      console.log(reason);
       // Render the error in-place on the graph
       vertices[partialUrl] = {attributes: {"Error:":"Whilst fetching or parsing vertex info"}, links: {}};
       renderAllVerticesAsDot();
