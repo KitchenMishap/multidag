@@ -12,9 +12,12 @@ function renderVertexAsHtml(attributes, links) {
 
   if (links.hasOwnProperty("singleIn")) {
     for (singleIn of links.singleIn) {
-      action = "addVertex('" + singleIn.otherVertex + "')";
-      label = singleIn.label;
-      htmlResult += "<button type='button' tooltip='" + label + "' onclick=" + action + ">+</button>";
+      // Only show button if links to vertex not yet shown
+      if( !vertices.hasOwnProperty(singleIn.otherVertex) ) {
+        action = "addVertex('" + singleIn.otherVertex + "')";
+        label = singleIn.label;
+        htmlResult += "<button type='button' tooltip='" + label + "' onclick=" + action + ">+</button>";
+      }
     }
   }
 
