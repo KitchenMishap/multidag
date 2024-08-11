@@ -30,7 +30,7 @@ function renderAllAsDot() {
   for (const [key, value] of Object.entries(vertices)) {
     var vertex = key;
     result += 'vertex_' + vertex.replace("/","_");
-    result += ' [labelType="html" label="';
+    result += ' [labelType="html" class="' + vertexClass(vertex) + '" label="';
     result += renderVertexAsHtml(vertex, value.attributes, value.links);
     result += '"];\n';
 
