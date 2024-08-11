@@ -1,9 +1,5 @@
 {
-  "block": {
-      "otherVertex": "block/0",
-      "otherLabel": "transactions"
-  },
-  "txis": {
+  "txos": {
     "totalCount": 2,
     "vertexSelection": {
       "firstIndex": 0,
@@ -13,5 +9,4 @@
       ]
     }
   }
-
 }

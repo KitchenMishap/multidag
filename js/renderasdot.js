@@ -49,8 +49,12 @@ function renderAllAsDot() {
     result += '"];\n';
 
     // The arc for the metavertex
-    result += parentName + ' -> ' + metaVertexName + ';';
-
+    var isOut = value.isOut;
+    if( isOut ) {
+      result += parentName + ' -> ' + metaVertexName + ';\n';
+    } else {
+      result += metaVertexName + ' -> ' + parentName + ';\n';
+    }
     // The "n others" coming off of the multiMetaVertex
     var othersCount = calculateMultiMetaVertexOthersCount(metaVertexName);
     if( othersCount > 0 )
@@ -60,7 +64,11 @@ function renderAllAsDot() {
       result += '' + othersCount + ' others"];\n';
 
       // The arc to "n others"
-      result += metaVertexName + ' -> ' + metaVertexName + '_others;';
+      if( isOut ) {
+        result += metaVertexName + ' -> ' + metaVertexName + '_others;\n';
+      } else {
+        result += metaVertexName + '_others -> ' + metaVertexName + ';\n';
+      }
     }
   }
 
@@ -104,7 +112,7 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
     if (bothVerticesPresent(vertexA, vertexB)) {
       // Will it have a metavertex at the multi-end?
       if (arcEndpointExistsAndIsMulti(vertexB, labelB)) {
-        var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB)
+        var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB, true);
         dotResult += renderArcFromMetaVertexAsDot(metaVertexName, vertexA);
         multiMetaVertices[metaVertexName].linkCount++;
       } else {
@@ -120,7 +128,7 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
     if (bothVerticesPresent(vertexA, vertexB)) {
       // Will it have a metavertex at the multi-end?
       if (arcEndpointExistsAndIsMulti(vertexB, labelB)) {
-        var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB)
+        var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB, false);
         dotResult += renderArcToMetaVertexAsDot(metaVertexName, vertexA);
         multiMetaVertices[metaVertexName].linkCount++;
       } else {
@@ -132,11 +140,11 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
   return dotResult;
 }
 
-function addMultiMetaVertexIfNotExist(vertex, label)
+function addMultiMetaVertexIfNotExist(vertex, label, isOut)
 {
   var metaVertexName = "metavertex_" + vertex.replace("/","_") + "_" + label;
   if(!multiMetaVertices.hasOwnProperty(metaVertexName)) {
-    multiMetaVertices[metaVertexName] = {parent: vertex, label: label, linkCount: 0};
+    multiMetaVertices[metaVertexName] = {parent: vertex, label: label, linkCount: 0, isOut: isOut};
   }
   return metaVertexName;
 }
