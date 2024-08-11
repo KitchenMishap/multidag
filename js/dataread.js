@@ -9,51 +9,63 @@ function arcEndpointExistsAndIsMulti(vertex, label)
   if( !vertices.hasOwnProperty(vertex) ) {
     return false;
   }
-  return (vertices[vertex].links.hasOwnProperty("multiOut")
-          && vertices[vertex].links.multiOut.hasOwnProperty(label));
+  if (vertices[vertex].inPoints.hasOwnProperty(label) ) {
+    if (vertices[vertex].inPoints[label].hasOwnProperty("totalCount")) {
+      return true;
+    }
+  }
+  if (vertices[vertex].outPoints.hasOwnProperty(label) ) {
+    if (vertices[vertex].outPoints[label].hasOwnProperty("totalCount")) {
+      return true;
+    }
+  }
+  return false;
 }
 
-function calculateMultiMetaVertexOthersCount(metaVertexName)
-{
-  linkCount = multiMetaVertices[metaVertexName].linkCount;
-  parentVertex = multiMetaVertices[metaVertexName].parent;
-  label = multiMetaVertices[metaVertexName].label;
-  links = vertices[parentVertex].links;
-  if( links.hasOwnProperty("multiOut") ) {
-    if( links.multiOut.hasOwnProperty(label) ) {
-      var totalCount = links.multiOut[label].totalCount
+function calculateMultiMetaVertexOthersCount(metaVertexName) {
+  var linkCount = multiMetaVertices[metaVertexName].linkCount;
+  var parentVertex = multiMetaVertices[metaVertexName].parent;
+  var label = multiMetaVertices[metaVertexName].label;
+  var inLinks = vertices[parentVertex].inPoints;
+  if (inLinks.hasOwnProperty(label)) {
+    var isMulti = inLinks[label].hasOwnProperty("totalCount");
+    if (isMulti) {
+      var totalCount = inLinks[label]["totalCount"];
       return totalCount - linkCount;
     }
   }
-  if( links.hasOwnProperty("multiIn") ) {
-    if( links.multiIn.hasOwnProperty(label) ) {
-      var totalCount = links.multiIn[label].totalCount
+  var outLinks = vertices[parentVertex].outPoints;
+  if (outLinks.hasOwnProperty(label)) {
+    var isMulti = outLinks[label].hasOwnProperty("totalCount");
+    if (isMulti) {
+      var totalCount = outLinks[label]["totalCount"];
       return totalCount - linkCount;
     }
   }
-  return 0;
+  return -1;  // I don't think this should happen
 }
 
-function multiOutsNotYetOpen(sourceVertex, multiOutLabel)
+// Call with outLinks=false for in links
+function multiLinksVerticesNotYetOpen(sourceVertex, linkLabel, outLinks)
 {
-  var links = vertices[sourceVertex].links;
-  if (links.hasOwnProperty("multiOut")) {
-    if (links.multiOut.hasOwnProperty(multiOutLabel)) {
-      var verticesToOpen = links.multiOut[multiOutLabel].arcSelection.vertices;
-      console.log("candidate verticesToOpen:");
-      console.log(verticesToOpen);
+  var links = outLinks ? vertices[sourceVertex].outPoints : vertices[sourceVertex].inPoints;
+  if( !links.hasOwnProperty(linkLabel) ) {
+    return [];
+  }
+  if( links[linkLabel].hasOwnProperty("vertexSelection") ) {
+    if( links[linkLabel]["vertexSelection"].hasOwnProperty("otherVertices") ) {
+      var otherVertices = links[linkLabel]["vertexSelection"]["otherVertices"];
       var verticesToKeep = [];
-      for(vertex of verticesToOpen) {
+      for(vertex of otherVertices) {
         if( !vertices.hasOwnProperty(vertex) ) {
           verticesToKeep.push(vertex);
         }
       }
-      console.log("verticesToOpen:");
-      console.log(verticesToKeep);
       return verticesToKeep;
     }
   }
   return [];
+
 }
 
 function vertexClass(vertex) {

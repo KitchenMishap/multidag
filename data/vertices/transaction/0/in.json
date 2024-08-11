@@ -1,9 +1,6 @@
 {
-  "singleIn": [
-    {
-      "label": "block",
+  "block": {
       "otherVertex": "block/0",
       "otherLabel": "transactions"
-    }
-  ]
+  }
 }

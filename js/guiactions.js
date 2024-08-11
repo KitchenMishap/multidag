@@ -10,9 +10,9 @@ function removeVertex(partialUrl)
   updateRemoveVertexAndRedraw(partialUrl);
 }
 
-function addMultiOut(sourceVertex, multiOutLabel)
+function addMultiLink(sourceVertex, multiLinkLabel, outLinks)
 {
   resetZoom();
-  var verticesToOpen = multiOutsNotYetOpen(sourceVertex, multiOutLabel);
+  var verticesToOpen = multiLinksVerticesNotYetOpen(sourceVertex, multiLinkLabel, outLinks);
   updateAddVerticesAndRedraw(verticesToOpen);
 }

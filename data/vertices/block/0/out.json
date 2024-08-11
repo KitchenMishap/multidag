@@ -1,0 +1,12 @@
+{
+  "transactions": {
+    "totalCount": 2,
+    "vertexSelection": {
+      "firstIndex": 0,
+      "otherVertices": [
+        "transaction/0",
+        "transaction/1"
+      ]
+    }
+  }
+}

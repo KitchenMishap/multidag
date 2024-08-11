@@ -6,7 +6,8 @@ function fetchFile(partialUrl)
     {method: "get"});
 }
 
-function fetchJsonResponse(partialUrl)
+// If allowMissingFile is true, a missing file will result in a resolved promise returning null
+function fetchJsonResponse(partialUrl, allowMissingFile)
 {
   return new Promise((resolve, reject) => {
     return fetchFile(partialUrl)
@@ -14,10 +15,15 @@ function fetchJsonResponse(partialUrl)
         if (response.ok) {
           resolve(response);
         } else {
-          console.log("Response not ok for json file " + partialUrl);
-          console.log("Response is:");
-          console.log(response);
-          reject(response);
+          if( allowMissingFile ) {
+            resolve(null);
+          } else {
+            console.log("fetchJsonResponse(): Response not ok for json file " + partialUrl);
+            console.log("(allowMissingFile specified as false)");
+            console.log("Response is:");
+            console.log(response);
+            reject(response);
+          }
         }
       })
       .catch((reason) => {
@@ -26,11 +32,15 @@ function fetchJsonResponse(partialUrl)
   })
 }
 
-function fetchAndParseJsonResponse(partialUrl) {
+function fetchAndParseJsonResponse(partialUrl, allowMissingFile) {
   return new Promise((resolve, reject) => {
-    return fetchJsonResponse(partialUrl)
+    return fetchJsonResponse(partialUrl, allowMissingFile)
       .then((response) => {
-        resolve(response.json());
+        if(response==null) {
+          resolve({});    // A missing file results in an empty object
+        } else {
+          resolve(response.json());
+        }
       })
       .catch((reason) => {
         reject(reason);

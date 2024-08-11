@@ -7,27 +7,18 @@ function renderJsonObjectAsHtml(json) {
   return htmlResult;
 }
 
-function renderVertexAsHtml(vertex, attributes, links) {
-  htmlResult = '';
+function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
+  var htmlResult = '';
   htmlResult += "<div class='" + vertexClass(vertex) + "'>";
 
-  // Buttons at the top
-  if (links.hasOwnProperty("singleIn")) {
-    for (singleIn of links.singleIn) {
-      // Only show button if links to vertex not yet shown
-      if( !vertices.hasOwnProperty(singleIn.otherVertex) ) {
-        var addAction = "addVertex('" + singleIn.otherVertex + "')";
-        var label = singleIn.label;
-        var class_ = vertexClass(singleIn.otherVertex);
-        htmlResult += "<button type='button' class='" + class_ + "' onclick=" + addAction + ">+" + label + "</button>";
-      }
-    }
-  }
-  var removeAction = "removeVertex('" + vertex + "')";
-  htmlResult += "<button type='button' onclick=" + removeAction + ">X</button>";
+  // inPoint buttons at the top
+  var outLinks = false;
+  htmlResult += renderLinkButtons(vertex, inPoints, outLinks);
 
-  // Title
-  htmlResult += "<h3 class='title'>" + vertexTitle(vertex) + "</h3>";
+  // Title with X button
+  var removeAction = "removeVertex('" + vertex + "')";
+  buttonHtml = "<button type='button' onclick=" + removeAction + ">X</button>";
+  htmlResult += "<h3 class='title'>" + vertexTitle(vertex) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
 
   // Attributes
   htmlResult += '<table>'
@@ -36,18 +27,40 @@ function renderVertexAsHtml(vertex, attributes, links) {
   }
   htmlResult += '</table>';
 
-  // Buttons at the bottom
-  if (links.hasOwnProperty("multiOut")) {
-    for( const [k,v] of Object.entries(links.multiOut) ) {
-      var multiOutLabel = k;
-      var addMultiOutAction = "addMultiOut('" + vertex + "','" + multiOutLabel + "')";
-      var outs = multiOutsNotYetOpen(vertex, multiOutLabel);
-      if( outs.length > 0 ) {
-        var class_ = vertexClass(outs[0]);
-        htmlResult += "<button type='button' class='" + class_ + "' onclick=" + addMultiOutAction + ">+" + multiOutLabel + "</button>";
+  // outPoint Buttons at the bottom
+  outLinks = true;
+  htmlResult += renderLinkButtons(vertex, outPoints, outLinks);
+
+  htmlResult += "</div>";
+  return htmlResult;
+}
+
+// outLinks should be false for inLinks (ie for buttons at the top)
+function renderLinkButtons(vertex, links, outLinks)
+{
+  sOutLinks = outLinks ? "true" : "false";
+  htmlResult = "";
+  for(const [k,v] of Object.entries(links)) {
+    var linkLabel = k;
+
+    // If it has a totalCount, it is a multi link
+    if( v.hasOwnProperty("totalCount") ) {
+      var otherVertices = multiLinksVerticesNotYetOpen(vertex, linkLabel, outLinks);
+      if( otherVertices.length > 0 ) {
+        var addMultiAction = "addMultiLink('" + vertex + "','" + linkLabel + "'," + sOutLinks + ")";
+        var class_ = vertexClass(otherVertices[0]);
+        htmlResult += "<button type='button' class='" + class_ + "' onclick=" + addMultiAction + ">+" + linkLabel + "</button>";
+      }
+    } else {
+      // No totalCount, so it is a single link
+      var otherVertex = v["otherVertex"];
+      // Only show the button if it links to a vertex that is not yet shown
+      if( !vertices.hasOwnProperty(otherVertex) ) {
+        var addAction = "addVertex('" + otherVertex + "')";
+        var class_ = vertexClass(otherVertex);
+        htmlResult += "<button type='button' class='" + class_ + "' onclick=" + addAction + ">+" + linkLabel + "</button>";
       }
     }
   }
-  htmlResult += "</div>";
   return htmlResult;
 }

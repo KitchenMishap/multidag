@@ -1,0 +1,12 @@
+{
+  "blocks": {
+    "totalCount": 855000,
+    "vertexSelection": {
+      "firstIndex": 0,
+      "otherVertices": [
+        "block/0",
+        "block/1"
+      ]
+    }
+  }
+}
