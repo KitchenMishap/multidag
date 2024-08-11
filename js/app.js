@@ -7,8 +7,10 @@ var multiMetaVertices = {};
 var svg = d3.select("svg"),
   inner = d3.select("svg g"),
   zoom = d3.zoom().on("zoom", function() {
-  inner.attr("transform", d3.event.transform);
-});
+    inner.attr("transform", d3.event.transform);
+  });
+  resetZoom = function() {inner.call(zoom.scaleTo, 1.0);
+  }
 svg.call(zoom);
 
 // Create and configure the renderer
