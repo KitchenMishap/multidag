@@ -1,17 +1,20 @@
 {
-  "block": {
+  "single": {
+    "block": {
       "otherVertex": "block/0",
       "otherLabel": "transactions"
+    }
   },
-  "txis": {
-    "totalCount": 2,
-    "vertexSelection": {
-      "firstIndex": 0,
-      "otherVertices": [
-        "txo/0",
-        "txo/1"
-      ]
+  "multi": {
+    "txis": {
+      "totalCount": 2,
+      "vertexSelection": {
+        "firstIndex": 0,
+        "otherVertices": [
+          "txo/0",
+          "txo/1"
+        ]
+      }
     }
   }
-
 }

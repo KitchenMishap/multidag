@@ -9,13 +9,13 @@ function arcEndpointExistsAndIsMulti(vertex, label)
   if( !vertices.hasOwnProperty(vertex) ) {
     return false;
   }
-  if (vertices[vertex].inPoints.hasOwnProperty(label) ) {
-    if (vertices[vertex].inPoints[label].hasOwnProperty("totalCount")) {
+  if (vertices[vertex].inPoints.hasOwnProperty("multi")) {
+    if (vertices[vertex].inPoints.multi.hasOwnProperty(label)) {
       return true;
     }
   }
-  if (vertices[vertex].outPoints.hasOwnProperty(label) ) {
-    if (vertices[vertex].outPoints[label].hasOwnProperty("totalCount")) {
+  if (vertices[vertex].outPoints.hasOwnProperty("multi")) {
+    if (vertices[vertex].outPoints.multi.hasOwnProperty(label)) {
       return true;
     }
   }
@@ -26,19 +26,17 @@ function calculateMultiMetaVertexOthersCount(metaVertexName) {
   var linkCount = multiMetaVertices[metaVertexName].linkCount;
   var parentVertex = multiMetaVertices[metaVertexName].parent;
   var label = multiMetaVertices[metaVertexName].label;
-  var inLinks = vertices[parentVertex].inPoints;
-  if (inLinks.hasOwnProperty(label)) {
-    var isMulti = inLinks[label].hasOwnProperty("totalCount");
-    if (isMulti) {
-      var totalCount = inLinks[label]["totalCount"];
+  if( vertices[parentVertex].inPoints.hasOwnProperty("multi") ) {
+    var inLinksMulti = vertices[parentVertex].inPoints.multi;
+    if (inLinksMulti.hasOwnProperty(label)) {
+      var totalCount = inLinksMulti[label]["totalCount"];
       return totalCount - linkCount;
     }
   }
-  var outLinks = vertices[parentVertex].outPoints;
-  if (outLinks.hasOwnProperty(label)) {
-    var isMulti = outLinks[label].hasOwnProperty("totalCount");
-    if (isMulti) {
-      var totalCount = outLinks[label]["totalCount"];
+  if( vertices[parentVertex].outPoints.hasOwnProperty("multi") ) {
+    var outLinksMulti = vertices[parentVertex].outPoints.multi;
+    if (outLinksMulti.hasOwnProperty(label)) {
+      var totalCount = outLinksMulti[label]["totalCount"];
       return totalCount - linkCount;
     }
   }
@@ -48,13 +46,13 @@ function calculateMultiMetaVertexOthersCount(metaVertexName) {
 // Call with outLinks=false for in links
 function multiLinksVerticesNotYetOpen(sourceVertex, linkLabel, outLinks)
 {
-  var links = outLinks ? vertices[sourceVertex].outPoints : vertices[sourceVertex].inPoints;
-  if( !links.hasOwnProperty(linkLabel) ) {
+  var linksMulti = outLinks ? vertices[sourceVertex].outPoints.multi : vertices[sourceVertex].inPoints.multi;
+  if( !linksMulti.hasOwnProperty(linkLabel) ) {
     return [];
   }
-  if( links[linkLabel].hasOwnProperty("vertexSelection") ) {
-    if( links[linkLabel]["vertexSelection"].hasOwnProperty("otherVertices") ) {
-      var otherVertices = links[linkLabel]["vertexSelection"]["otherVertices"];
+  if( linksMulti[linkLabel].hasOwnProperty("vertexSelection") ) {
+    if( linksMulti[linkLabel]["vertexSelection"].hasOwnProperty("otherVertices") ) {
+      var otherVertices = linksMulti[linkLabel]["vertexSelection"]["otherVertices"];
       var verticesToKeep = [];
       for(vertex of otherVertices) {
         if( !vertices.hasOwnProperty(vertex) ) {

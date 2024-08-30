@@ -1,6 +1,10 @@
 {
-  "transaction": {
+  "single" : {
+    "transaction": {
       "otherVertex": "transaction/0",
       "otherLabel": "txos"
+    }
+  },
+  "multi" : {
   }
 }

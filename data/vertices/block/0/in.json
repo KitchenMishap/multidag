@@ -1,6 +1,10 @@
 {
-  "blockchain": {
+  "single" : {
+    "blockchain": {
       "otherVertex": "blockchain",
       "otherLabel": "blocks"
+    }
+  },
+  "multi" : {
   }
 }

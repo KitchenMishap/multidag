@@ -1,6 +1,10 @@
 {
-  "spent": {
-    "otherVertex": "transaction/1",
-    "otherLabel": "txis"
+  "single": {
+    "spent": {
+      "otherVertex": "transaction/1",
+      "otherLabel": "txis"
+    }
+  },
+  "multi" : {
   }
 }

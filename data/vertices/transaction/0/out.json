@@ -1,12 +1,17 @@
 {
-  "txos": {
-    "totalCount": 2,
-    "vertexSelection": {
-      "firstIndex": 0,
-      "otherVertices": [
-        "txo/0",
-        "txo/1"
-      ]
+  "single" : {
+
+  },
+  "multi" : {
+    "txos": {
+      "totalCount": 2,
+      "vertexSelection": {
+        "firstIndex": 0,
+        "otherVertices": [
+          "txo/0",
+          "txo/1"
+        ]
+      }
     }
   }
 }
