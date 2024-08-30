@@ -2,7 +2,8 @@
 
 function fetchFile(partialUrl)
 {
-  return fetch("http://localhost/multidag/data/" + partialUrl,
+//  return fetch("http://localhost/multidag/data/" + partialUrl,
+  return fetch("http://localhost:8000/" + partialUrl,
     {method: "get"});
 }
 
