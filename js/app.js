@@ -67,3 +67,8 @@ function getSingleString() {
 function getFirstVertex() {
   updateAddVertexAndRedraw("block/0")
 }
+
+function lookupHashOrAddress() {
+  hashOrAddress = document.getElementById("hashOrAddress").value;
+  updateAddLookupAndRedraw(hashOrAddress);
+}

@@ -1,3 +1,5 @@
+// Functions instigated by user actions (button presses etc)
+
 function addVertex(partialUrl)
 {
   resetZoom()

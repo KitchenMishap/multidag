@@ -1,3 +1,5 @@
+// Functions that render things in the "dot" graph lanuage
+
 function renderSingleHtmlStringAsDot(str) {
   var result = "";
 

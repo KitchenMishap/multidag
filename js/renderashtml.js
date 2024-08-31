@@ -1,3 +1,5 @@
+// Functions that render things as html text (typically for inclusion within dot graph language)
+
 function renderJsonObjectAsHtml(json) {
   htmlResult = '<table>'
   for([k,v] of Object.entries(json)) {

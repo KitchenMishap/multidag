@@ -1,3 +1,5 @@
+// Functions that read the data we're holding in this browser
+
 function bothVerticesPresent(vertexA, vertexB)
 {
   return( vertices.hasOwnProperty(vertexA)

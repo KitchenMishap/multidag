@@ -1,4 +1,4 @@
-// Functions that talk to the server
+// Functions that fetch things from the server
 
 function fetchFile(partialUrl)
 {
