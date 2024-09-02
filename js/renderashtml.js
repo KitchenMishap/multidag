@@ -21,6 +21,7 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   if( inPoints.hasOwnProperty("single") ){
     htmlResult += renderLinkButtonsSingle(vertex, inPoints.single, outLinks);
   }
+  htmlResult += renderVertexJsonLink(vertex, "in.json")
 
   // Title with X button
   var removeAction = "removeVertex('" + vertex + "')";
@@ -28,6 +29,7 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   htmlResult += "<h3 class='title'>" + vertexTitle(vertex) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
 
   // Attributes
+  htmlResult += renderVertexJsonLink(vertex, "attributes.json")
   htmlResult += '<table>'
   for([k,v] of Object.entries(attributes)) {
     htmlResult += '<tr><th>' + sanitizeHTML(k) + ':</th><td>' + sanitizeHTML(v) + '</td></tr>'
@@ -42,6 +44,7 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   if( outPoints.hasOwnProperty("single") ) {
     htmlResult += renderLinkButtonsSingle(vertex, outPoints.single, outLinks);
   }
+  htmlResult += renderVertexJsonLink(vertex, "out.json")
 
   htmlResult += "</div>";
   return htmlResult;
@@ -82,4 +85,10 @@ function renderLinkButtonsSingle(vertex, links, outLinks)
     }
   }
   return htmlResult;
+}
+function renderVertexJsonLink(vertex, file)
+{
+  var result = "";
+  result += "<a href='http://localhost:8000/vertices/" + vertex + "/" + file + "' target='_blank' rel='noopener noreferrer'>" + file + "</a>";
+  return result;
 }
