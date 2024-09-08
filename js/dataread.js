@@ -73,6 +73,7 @@ function vertexClass(vertex) {
 }
 
 function vertexTitle(vertex) {
-  var candidate = vertex.split('/')[0];
-  return candidate.toUpperCase();
+  var type = vertex.split('/')[0];
+  var index = vertex.split('/')[1];
+  return type.toUpperCase() + " " + index;
 }
