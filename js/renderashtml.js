@@ -10,6 +10,7 @@ function renderJsonObjectAsHtml(json) {
 }
 
 function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
+  var showJsonLinks = false;
   var htmlResult = '';
   htmlResult += "<div class='" + vertexClass(vertex) + "'>";
 
@@ -21,7 +22,9 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   if( inPoints.hasOwnProperty("single") ){
     htmlResult += renderLinkButtonsSingle(vertex, inPoints.single, outLinks);
   }
-  htmlResult += renderVertexJsonLink(vertex, "in.json")
+  if( showJsonLinks ) {
+    htmlResult += renderVertexJsonLink(vertex, "in.json")
+  }
 
   // Title with X button
   var removeAction = "removeVertex('" + vertex + "')";
@@ -29,7 +32,9 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   htmlResult += "<h3 class='title'>" + vertexTitle(vertex) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
 
   // Attributes
-  htmlResult += renderVertexJsonLink(vertex, "attributes.json")
+  if( showJsonLinks ) {
+    htmlResult += renderVertexJsonLink(vertex, "attributes.json")
+  }
   htmlResult += '<table>'
   for([k,v] of Object.entries(attributes)) {
     htmlResult += '<tr><th>' + sanitizeHTML(k) + ':</th><td>' + sanitizeHTML(v) + '</td></tr>'
@@ -44,7 +49,9 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   if( outPoints.hasOwnProperty("single") ) {
     htmlResult += renderLinkButtonsSingle(vertex, outPoints.single, outLinks);
   }
-  htmlResult += renderVertexJsonLink(vertex, "out.json")
+  if( showJsonLinks ) {
+    htmlResult += renderVertexJsonLink(vertex, "out.json")
+  }
 
   htmlResult += "</div>";
   return htmlResult;
