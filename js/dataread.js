@@ -120,13 +120,25 @@ function vertexTitle(vertex, attributes, inPoints, outPoints) {
   if (type=='transaction' && concise==true) {
     return conciseTransactionTitle(vertex, attributes, inPoints, outPoints);
   }
+  if (type=='txo' && concise==true) {
+    return conciseTxoTitle(vertex, attributes, inPoints, outPoints);
+  }
   return type.toUpperCase() + " " + index;
 }
 
 function conciseTransactionTitle(vertex, attributes, inPoints, outPoints) {
-  console.log(inPoints);
   seconds1970 = attributes.blockmediantime;
   date = new Date(seconds1970 * 1000);
   str = date.toLocaleString();
   return str;
+}
+
+function conciseTxoTitle(vertex, attributes, inPoints, outPoints) {
+  var satoshis = attributes.satoshis;
+  var btc = satoshis/100000000;
+  if (btc < 0.001) {
+    return satoshis.toString() + " sats";
+  } else {
+    return btc.toString() + " BTC";
+  }
 }

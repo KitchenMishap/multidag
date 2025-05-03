@@ -4,5 +4,8 @@ function showAttributesForVertex(vertex)
   if (type=='transaction' && concise==true) {
     return false;
   }
+  if (type=='txo' && concise==true) {
+    return false;
+  }
   return true;
 }
