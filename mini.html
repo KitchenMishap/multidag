@@ -50,8 +50,8 @@
 
 <body onload="tryDraw()">
 
-  <h1>MultiDag - Full version</h1>
-  <a href="mini.html">Go to concise version -></a><br>
+  <h1>Multidag - Concise version</h1>
+  <a href="index.html"><- Go to Full version</a><br>
   <button type="button" onclick="getFirstVertex();">Get first vertex</button>
   <input type="text" size="40" placeholder="Type an address or block/transaction hash" id="hashOrAddress"/>
   <button type="button" onclick="lookupHashOrAddress();">Add address or hash</button><br>
@@ -60,14 +60,14 @@
     <g/>
   </svg>
 
-  <script>var vertexSubdir="fulldag-vertex/";</script>
+  <script>var vertexSubdir="minidag-vertex/";</script>
   <script src="js/app.js"></script>
 
 
   <form>
     <textarea id="inputGraph" rows="10" style="display: block" onKeyUp="tryDraw();">
 digraph {
-  A [labelType="html" label="<h1>Hello World! This text is in index.html</h1>"]
+  A [labelType="html" label="<h1>Hello World! This text is in mini.html</h1>"]
 }
   </textarea>
   </form>
