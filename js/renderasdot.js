@@ -10,45 +10,42 @@ function renderAllAsDot() {
   // The vertices
   for (const [key, value] of Object.entries(vertices)) {
     var vertex = key;
-    result += 'vertex_' + vertex.replace("/","_");
+    var vertexName = 'vertex_' + vertex.replace("/", "_");
+    result += vertexName;
     result += ' [labelType="html" class="' + vertexClass(vertex) + '" label="';
     result += renderVertexAsHtml(vertex, value.attributes, value.inPoints, value.outPoints);
     result += '"];\n';
 
     // The arcs for the vertex
-    // Also adds items to multiMetaVertices
     result += renderVertexArcsAsDot(vertex, value.inPoints, value.outPoints);
-  }
 
-  // The multiMetaVertices
-  for (const [key, value] of Object.entries(multiMetaVertices)) {
-    var metaVertexName = key;
-    var parentName = 'vertex_' + value.parent.replace("/","_");
-    result += metaVertexName;
-    result += ' [labelType="html" label="';
-    result += value.label;
-    result += '"];\n';
-
-    // The arc for the metavertex
-    var isOut = value.isOut;
-    if( isOut ) {
-      result += parentName + ' -> ' + metaVertexName + ';\n';
-    } else {
-      result += metaVertexName + ' -> ' + parentName + ';\n';
+    // The "n others" coming into the vertex
+    if( value.inPoints.hasOwnProperty("multi") ) {
+      for (const [key, value2] of Object.entries(value.inPoints.multi)) {
+        label = key;
+        var othersInCount = calculateVertexOthersInCount(vertex, label);
+        if (othersInCount > 0) {
+          result += vertexName + "_othersin";
+          result += ' [labeltype="html" label ="';
+          result += '' + othersInCount + ' others"];\n';
+          // The arc to "n others" in
+          result += vertexName + '_othersin -> ' + vertexName + ';\n';
+        }
+      }
     }
-    // The "n others" coming off of the multiMetaVertex
-    var othersCount = calculateMultiMetaVertexOthersCount(metaVertexName);
-    if( othersCount > 0 )
-    {
-      result += metaVertexName + "_others";
-      result += ' [labeltype="html" label ="';
-      result += '' + othersCount + ' others"];\n';
 
-      // The arc to "n others"
-      if( isOut ) {
-        result += metaVertexName + ' -> ' + metaVertexName + '_others;\n';
-      } else {
-        result += metaVertexName + '_others -> ' + metaVertexName + ';\n';
+    // The "n others" going out of the vertex
+    if( value.outPoints.hasOwnProperty("multi") ) {
+      for (const [key, value2] of Object.entries(value.outPoints.multi)) {
+        label = key;
+        var othersOutCount = calculateVertexOthersOutCount(vertex, label);
+        if (othersOutCount > 0) {
+          result += vertexName + "_othersout";
+          result += ' [labeltype="html" label ="';
+          result += '' + othersOutCount + ' others"];\n';
+          // The arc to "n others" out
+          result += vertexName + " -> " + vertexName + '_othersout' + ';\n';
+        }
       }
     }
   }
@@ -69,20 +66,6 @@ function renderArcAsDot(vertexA, vertexB)
   return dotResult;
 }
 
-function renderArcFromMetaVertexAsDot(metaVertexA, vertexB)
-{
-  var dotResult = "";
-  dotResult += metaVertexA + " -> vertex_" + vertexB.replace("/","_") + ";\n";
-  return dotResult;
-}
-
-function renderArcToMetaVertexAsDot(metaVertexA, vertexB)
-{
-  var dotResult = "";
-  dotResult += "vertex_" + vertexB.replace("/","_") + " -> " + metaVertexA + ";\n";
-  return dotResult;
-}
-
 function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
 {
   var dotResult = "";
@@ -91,15 +74,8 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
       vertexB = value["otherVertex"];
       labelB = value["otherLabel"];
       if (bothVerticesPresent(vertexA, vertexB)) {
-        // Will it have a metavertex at the multi-end?
-        if (arcEndpointExistsAndIsMulti(vertexB, labelB)) {
-          var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB, true);
-          dotResult += renderArcFromMetaVertexAsDot(metaVertexName, vertexA);
-          multiMetaVertices[metaVertexName].linkCount++;
-        } else {
-          // Direct link, non-multi at other ent (no metavertex)
-          dotResult += renderArcAsDot(vertexB, vertexA)
-        }
+        // Direct link, we don't have metavertices in this version of the fn
+        dotResult += renderArcAsDot(vertexB, vertexA)
       }
     }
   }
@@ -108,15 +84,8 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
       vertexB = value["otherVertex"];
       labelB = value["otherLabel"];
       if (bothVerticesPresent(vertexA, vertexB)) {
-        // Will it have a metavertex at the multi-end?
-        if (arcEndpointExistsAndIsMulti(vertexB, labelB)) {
-          var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB, true);
-          dotResult += renderArcFromMetaVertexAsDot(metaVertexName, vertexA);
-          multiMetaVertices[metaVertexName].linkCount++;
-        } else {
-          // Direct link, non-multi at other ent (no metavertex)
-          dotResult += renderArcAsDot(vertexB, vertexA)
-        }
+        // Direct link, we don't have metavertices in this version of the fn
+        dotResult += renderArcAsDot(vertexB, vertexA)
       }
     }
   }
@@ -126,15 +95,8 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
       vertexB = value["otherVertex"];
       labelB = value["otherLabel"];
       if (bothVerticesPresent(vertexA, vertexB)) {
-        // Will it have a metavertex at the multi-end?
-        if (arcEndpointExistsAndIsMulti(vertexB, labelB)) {
-          var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB, false);
-          dotResult += renderArcToMetaVertexAsDot(metaVertexName, vertexA);
-          multiMetaVertices[metaVertexName].linkCount++;
-        } else {
-          // Direct link, non-multi at other ent (no metavertex)
-          dotResult += renderArcAsDot(vertexA, vertexB)
-        }
+        // Direct link, we don't have metavertices in this version of the fn
+        dotResult += renderArcAsDot(vertexA, vertexB)
       }
     }
   }
@@ -143,26 +105,10 @@ function renderVertexArcsAsDot(vertexA, vertexAInLinks, vertexAOutLinks)
       vertexB = value["otherVertex"];
       labelB = value["otherLabel"];
       if (bothVerticesPresent(vertexA, vertexB)) {
-        // Will it have a metavertex at the multi-end?
-        if (arcEndpointExistsAndIsMulti(vertexB, labelB)) {
-          var metaVertexName = addMultiMetaVertexIfNotExist(vertexB, labelB, false);
-          dotResult += renderArcToMetaVertexAsDot(metaVertexName, vertexA);
-          multiMetaVertices[metaVertexName].linkCount++;
-        } else {
-          // Direct link, non-multi at other ent (no metavertex)
-          dotResult += renderArcAsDot(vertexA, vertexB)
-        }
+        // Direct link, we don't have metavertices in this version of the fn
+        dotResult += renderArcAsDot(vertexA, vertexB)
       }
     }
   }
   return dotResult;
-}
-
-function addMultiMetaVertexIfNotExist(vertex, label, isOut)
-{
-  var metaVertexName = "metavertex_" + vertex.replace("/","_") + "_" + label;
-  if(!multiMetaVertices.hasOwnProperty(metaVertexName)) {
-    multiMetaVertices[metaVertexName] = {parent: vertex, label: label, linkCount: 0, isOut: isOut};
-  }
-  return metaVertexName;
 }

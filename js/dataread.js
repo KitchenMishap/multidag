@@ -45,6 +45,48 @@ function calculateMultiMetaVertexOthersCount(metaVertexName) {
   return -1;  // I don't think this should happen
 }
 
+function calculateVertexOthersInCount(vertexName, label) {
+  if (vertices[vertexName].inPoints.hasOwnProperty("multi")) {
+    var inLinksMulti = vertices[vertexName].inPoints.multi;
+    if (inLinksMulti.hasOwnProperty(label)) {
+      var totalCount = inLinksMulti[label]["totalCount"];
+      var openCount = countOpenVertices(inLinksMulti[label].vertexSelection.otherVertices);
+      if (openCount==0) {
+        // We don't speak of "others" when none are open at all
+        return 0;
+      }
+      return totalCount - openCount;
+    }
+  }
+  return -1;  // I don't think this should happen
+}
+
+function calculateVertexOthersOutCount(vertexName, label) {
+  if( vertices[vertexName].outPoints.hasOwnProperty("multi") ) {
+    var outLinksMulti = vertices[vertexName].outPoints.multi;
+    if (outLinksMulti.hasOwnProperty(label)) {
+      var totalCount = outLinksMulti[label]["totalCount"];
+      var openCount = countOpenVertices(outLinksMulti[label].vertexSelection.otherVertices);
+      if (openCount==0) {
+        // We don't speak of "others" when none are open at all
+        return 0;
+      }
+      return totalCount - openCount;
+    }
+  }
+  return -1;  // I don't think this should happen
+}
+
+function countOpenVertices(vertexArray) {
+  var count = 0;
+  for (const s of vertexArray) {
+    if (s in vertices) {
+      count++;
+    }
+  }
+  return count;
+}
+
 // Call with outLinks=false for in links
 function multiLinksVerticesNotYetOpen(sourceVertex, linkLabel, outLinks)
 {
