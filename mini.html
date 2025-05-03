@@ -36,6 +36,7 @@
 <script src="js/guiactions.js"></script>
 <script src="js/renderasdot.js"></script>
 <script src="js/renderashtml.js"></script>
+<script src="js/customrenderashtml.js"></script>
 <script src="js/sanitize.js"></script>
 
 <style>
@@ -60,7 +61,11 @@
     <g/>
   </svg>
 
-  <script>var vertexSubdir="minidag-vertex/";</script>
+  <script>
+    // Some configuration options for the website
+    var concise=true;
+    var vertexSubdir="minidag-vertex/";   // Use the "minidag" dag from the server
+  </script>
   <script src="js/app.js"></script>
 
 

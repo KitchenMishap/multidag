@@ -11,6 +11,7 @@ function renderJsonObjectAsHtml(json) {
 
 function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   var showJsonLinks = false;
+  var showAttributes = showAttributesForVertex(vertex);
   var htmlResult = '';
   htmlResult += "<div class='" + vertexClass(vertex) + "'>";
 
@@ -29,17 +30,19 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
   // Title with X button
   var removeAction = "removeVertex('" + vertex + "')";
   buttonHtml = "<button type='button' onclick=" + removeAction + ">X</button>";
-  htmlResult += "<h3 class='title'>" + vertexTitle(vertex) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
+  htmlResult += "<h3 class='title'>" + vertexTitle(vertex, attributes, inPoints, outPoints) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
 
   // Attributes
   if( showJsonLinks ) {
     htmlResult += renderVertexJsonLink(vertex, "attributes.json")
   }
-  htmlResult += '<table>'
-  for([k,v] of Object.entries(attributes)) {
-    htmlResult += '<tr><th>' + sanitizeHTML(k) + ':</th><td>' + sanitizeHTML(v) + '</td></tr>'
+  if (showAttributes) {
+    htmlResult += '<table>'
+    for ([k, v] of Object.entries(attributes)) {
+      htmlResult += '<tr><th>' + sanitizeHTML(k) + ':</th><td>' + sanitizeHTML(v) + '</td></tr>'
+    }
+    htmlResult += '</table>';
   }
-  htmlResult += '</table>';
 
   // outPoint Buttons at the bottom
   outLinks = true;
