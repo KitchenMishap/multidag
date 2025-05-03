@@ -47,10 +47,10 @@ function tryDraw() {
 }
 
 function getFirstVertex() {
-  updateAddVertexAndRedraw("block/0")
+  updateAddVertexAndRedraw("block/0", "fulldag-vertex/")
 }
 
 function lookupHashOrAddress() {
   hashOrAddress = document.getElementById("hashOrAddress").value;
-  updateAddLookupAndRedraw(hashOrAddress);
+  updateAddLookupAndRedraw(hashOrAddress, "fulldag-vertex/");
 }

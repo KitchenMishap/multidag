@@ -3,7 +3,7 @@
 function addVertex(partialUrl)
 {
   resetZoom()
-  updateAddVertexAndRedraw(partialUrl);
+  updateAddVertexAndRedraw(partialUrl, "fulldag-vertex/");
 }
 
 function removeVertex(partialUrl)
@@ -16,5 +16,5 @@ function addMultiLink(sourceVertex, multiLinkLabel, outLinks)
 {
   resetZoom();
   var verticesToOpen = multiLinksVerticesNotYetOpen(sourceVertex, multiLinkLabel, outLinks);
-  updateAddVerticesAndRedraw(verticesToOpen);
+  updateAddVerticesAndRedraw(verticesToOpen, "fulldag-vertex/");
 }
