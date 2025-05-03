@@ -46,24 +46,6 @@ function tryDraw() {
   }
 }
 
-function getSingleString() {
-  fetchJsonFile("vertices/blockchain/attributes.json")
-    .then((response) => {
-      response.json()
-        .then((json) => {
-          renderSingleHtmlStringAsDot( renderJsonObjectAsHtml(json) );
-        })
-        .catch((jsonError) => {
-          console.log(jsonError);
-          renderSingleHtmlStringAsDot( "JSON Error: See Console");
-          })
-    })
-    .catch((httpError) => {
-      console.log(httpError);
-      renderSingleHtmlStringAsDot( "HTTP Error: See Console");
-    });
-}
-
 function getFirstVertex() {
   updateAddVertexAndRedraw("block/0")
 }
