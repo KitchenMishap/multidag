@@ -77,6 +77,29 @@ function calculateVertexOthersOutCount(vertexName, label) {
   return -1;  // I don't think this should happen
 }
 
+function findOthersInNextToOpen(vertexName, label) {
+  if( vertices[vertexName].inPoints.hasOwnProperty("multi") ) {
+    var inLinksMulti = vertices[vertexName].inPoints.multi;
+    if (inLinksMulti.hasOwnProperty(label)) {
+      var nextToOpen = nextUnopened(inLinksMulti[label].vertexSelection.otherVertices);
+      return nextToOpen;
+    }
+  }
+  return null;  // This can happen, because inLinksMulti[label].vertexSelection is only a selection
+}
+
+
+function findOthersOutNextToOpen(vertexName, label) {
+  if( vertices[vertexName].outPoints.hasOwnProperty("multi") ) {
+    var outLinksMulti = vertices[vertexName].outPoints.multi;
+    if (outLinksMulti.hasOwnProperty(label)) {
+      var nextToOpen = nextUnopened(outLinksMulti[label].vertexSelection.otherVertices);
+      return nextToOpen;
+    }
+  }
+  return null;  // This can happen, because outLinksMulti[label].vertexSelection is only a selection
+}
+
 function countOpenVertices(vertexArray) {
   var count = 0;
   for (const s of vertexArray) {
@@ -85,6 +108,16 @@ function countOpenVertices(vertexArray) {
     }
   }
   return count;
+}
+
+function nextUnopened(vertexArray) {
+  for (const s of vertexArray) {
+    if (s in vertices) {
+    } else {
+      return s;
+    }
+  }
+  return null;
 }
 
 // Call with outLinks=false for in links

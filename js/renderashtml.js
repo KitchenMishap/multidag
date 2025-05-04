@@ -96,6 +96,18 @@ function renderLinkButtonsSingle(vertex, links, outLinks)
   }
   return htmlResult;
 }
+
+function renderOthersNextButton(nextVertex, label, parentVertex)
+{
+  htmlResult = "";
+
+  // Have to also reload parentVertex, to update the others box
+  var addAction = "addVertex('" + nextVertex + "')";
+  var class_ = vertexClass(label);
+  htmlResult += "<button type='button' class='" + class_ + "' onclick=" + addAction + ">+next</button>";
+  return htmlResult;
+}
+
 function renderVertexJsonLink(vertex, file)
 {
   var result = "";

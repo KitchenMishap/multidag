@@ -25,9 +25,14 @@ function renderAllAsDot() {
         label = key;
         var othersInCount = calculateVertexOthersInCount(vertex, label);
         if (othersInCount > 0) {
+          var nextToOpen = findOthersInNextToOpen(vertex, label);
           result += vertexName + "_othersin";
-          result += ' [labeltype="html" label ="';
-          result += '' + othersInCount + ' others"];\n';
+          result += ' [labelType="html" label="';
+          result += '' + othersInCount + ' others ';
+          if (nextToOpen !== null) {
+            result += renderOthersNextButton(nextToOpen, label, vertex);
+          }
+          result += '"];\n';
           // The arc to "n others" in
           result += vertexName + '_othersin -> ' + vertexName + ';\n';
         }
@@ -40,9 +45,14 @@ function renderAllAsDot() {
         label = key;
         var othersOutCount = calculateVertexOthersOutCount(vertex, label);
         if (othersOutCount > 0) {
+          var nextToOpen = findOthersOutNextToOpen(vertex, label);
           result += vertexName + "_othersout";
-          result += ' [labeltype="html" label ="';
-          result += '' + othersOutCount + ' others"];\n';
+          result += ' [labelType="html" label="';
+          result += '' + othersOutCount + ' others ';
+          if (nextToOpen !== null) {
+            result += renderOthersNextButton(nextToOpen, label, vertex);
+          }
+          result += '"];\n';
           // The arc to "n others" out
           result += vertexName + " -> " + vertexName + '_othersout' + ';\n';
         }
