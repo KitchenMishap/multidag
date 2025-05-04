@@ -27,10 +27,17 @@ function renderVertexAsHtml(vertex, attributes, inPoints, outPoints) {
     htmlResult += renderVertexJsonLink(vertex, "in.json")
   }
 
-  // Title with X button
+  // Title with flag button and X button
+  var flagAction = "toggleVertexFlag('" + vertex + "')";
   var removeAction = "removeVertex('" + vertex + "')";
-  buttonHtml = "<button type='button' onclick=" + removeAction + ">X</button>";
-  htmlResult += "<h3 class='title'>" + vertexTitle(vertex, attributes, inPoints, outPoints) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
+  var flagButtonHtml
+  if (vertices[vertex].hasOwnProperty("flagged")) {
+    flagButtonHtml = "<button type='button' onclick=" + flagAction + ">F</button>";
+  } else {
+    flagButtonHtml = "<button type='button' onclick=" + flagAction + ">&nbsp;</button>";
+  }
+  var buttonHtml = "<button type='button' onclick=" + removeAction + ">X</button>";
+  htmlResult += "<h3 class='title'>" + flagButtonHtml + "&nbsp;&nbsp;" + vertexTitle(vertex, attributes, inPoints, outPoints) + "&nbsp;&nbsp;" + buttonHtml + "</h3>";
 
   // Attributes
   if( showJsonLinks ) {

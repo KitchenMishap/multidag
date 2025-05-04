@@ -19,6 +19,14 @@ g.transaction rect.label-container {
   fill: #CCF;
 }
 
+.flagged {
+  background-color: #FF0;
+}
+g.flagged rect.label-container {
+  fill: #FF0;
+}
+
+
 h3.title {
   margin-bottom: 0;
   margin-top: 0;

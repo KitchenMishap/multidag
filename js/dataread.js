@@ -144,6 +144,11 @@ function multiLinksVerticesNotYetOpen(sourceVertex, linkLabel, outLinks)
 }
 
 function vertexClass(vertex) {
+  if (vertices.hasOwnProperty(vertex)) {
+    if (vertices[vertex].hasOwnProperty("flagged")) {
+      return 'flagged';
+    }
+  }
   return vertex.split('/')[0];
 }
 

@@ -156,3 +156,12 @@ function recurseAddLookups(hashesAddressesArray, subdirForVertices) {
     }
   });
 }
+
+function updateTogggleVertexFlagAndRedraw(partialUrl) {
+  if (vertices[partialUrl].hasOwnProperty('flagged')) {
+    delete vertices[partialUrl].flagged;
+  } else {
+    vertices[partialUrl].flagged = true;
+  }
+  renderAllAsDot();
+}

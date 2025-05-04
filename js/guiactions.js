@@ -18,3 +18,8 @@ function addMultiLink(sourceVertex, multiLinkLabel, outLinks)
   var verticesToOpen = multiLinksVerticesNotYetOpen(sourceVertex, multiLinkLabel, outLinks);
   updateAddVerticesAndRedraw(verticesToOpen, vertexSubdir);
 }
+
+function toggleVertexFlag(vertex)
+{
+  updateTogggleVertexFlagAndRedraw(vertex);
+}
