@@ -2,8 +2,13 @@
 
 function fetchFile(partialUrl)
 {
-//  return fetch("http://localhost/multidag/data/" + partialUrl,
-  return fetch("http://localhost:8000/" + partialUrl,
+  // 14699 is a random port chosen by random.org as being between 1024 and 65535
+  const API_BASE_URL = window.location.hostname === 'localhost' ?
+    'http://localhost:14699'
+    : (window.location.hostname === '127.0.0.1' ?
+       'http://127.0.0.1:14699'
+      : 'http://my-production-domain:14699');  // This will have to change on a real website
+  return fetch(API_BASE_URL + "/" + partialUrl,
     {method: "get"});
 }
 
